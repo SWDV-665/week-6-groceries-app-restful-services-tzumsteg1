@@ -23,24 +23,31 @@ export class GroceriesServiceService {
 
   }
 
-  removeItem(index){
-    this.items.splice(index, 1);
-  }
-
-  addItem(item){
-    this.http.post(this.baseURL + "/api/groceries/" + id).subscribe(res => {
+  removeItem(id){
+    console.log("### Remove Item - id = ", id);
+    this.http.delete(this.baseURL + "/api/groceries/" + id).subscribe(res => {
       this.items = res;
       this.dataChangeSubject.next(true);
     });
-    this.items.push(item);
+  }
+
+  addItem(item){
+    this.http.post(this.baseURL + "/api/groceries/", item).subscribe(res => {
+      this.items = res;
+      this.dataChangeSubject.next(true);
+    });
   }
 
   editItem(item, index){
-    this.items.[index] = item;
+    console.log("Editing item = ", item);
+    this.http.put(this.baseURL + "/api/groceries/" + item._id, item).subscribe(res => {
+      this.items = res;
+      this.dataChangeSubject.next(true);
+    });
   }
 
   getItems(): Observable<object[]> {
-    return this.http.get(this.baseURL + '/api/groceries').pipe(
+    return this.http.get(this.baseURL + '/api/groceries/').pipe(
       map(this.extractData),
       catchError(this.handleError)
     );
