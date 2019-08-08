@@ -19,8 +19,15 @@ export class HomePage {
   constructor(public navCtrl: NavController, public toastCtrl: ToastController, public alertCtrl: AlertController, public dataService: GroceriesServiceService, public inputDialogService: InputDialogServiceService, public socialSharing: SocialSharing) {
 
   }
+  ionViewDidLoad() {
+    this.loadItems();
+  }
+
   loadItems(){
     return this.dataService.getItems();
+    .subscribe(
+      items => this.items = items,
+      error => this.errorMessage = <any>error);
   }
 
   shareItem(item){

@@ -28,6 +28,10 @@ export class GroceriesServiceService {
   }
 
   addItem(item){
+    this.http.post(this.baseURL + "/api/groceries/" + id).subscribe(res => {
+      this.items = res;
+      this.dataChangeSubject.next(true);
+    });
     this.items.push(item);
   }
 
